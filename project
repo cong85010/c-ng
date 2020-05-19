@@ -1,0 +1,115 @@
+#include <iostream>
+#include <string>
+#include <stdlib.h>
+ 
+const char KiTu1 = 178;
+const char KiTu2 = 175;
+
+using namespace std;
+
+void menu();
+void Selection();
+void AddBooks();
+
+struct Book{
+	string hoTen;
+};
+
+int main ()
+{
+	do{
+		menu();
+		Selection();
+	}while(0);
+	
+	
+}
+
+void menu()
+{
+	int dem = 0;
+	cout << "\n\n\n\n\t\t\t\t\t";
+	do{
+		switch(dem)
+		{
+		
+			case 0:{
+					for(int i = 0; i < 32; i++)
+						{
+							cout << KiTu1;
+							if(i == 15)
+								cout << " MAIN MENU ";
+						}
+						cout << endl;
+					break;
+			}	
+			case 1:{
+					cout << " " << KiTu2;
+					cout << " 1. Add Books\n";
+					//AddBooks()
+				break;
+			}
+			case 2:{
+					cout << " " << KiTu2;
+					cout << " 2. Delete Books\n";
+					//DeleteBooks()
+				break;
+			}
+			case 3:{
+					cout << " " << KiTu2;
+					cout << " 3. Search Books\n";
+					//Search_Books()
+				break;
+			}
+			case 4:{
+					cout << " " << KiTu2;
+					cout << " 4. Issue Books\n";
+					// Issue_Books()
+				break;
+			}
+			case 5:{
+					cout << " " << KiTu2;
+					cout << " 5. View Book List\n";
+					//View_Book_List()
+				break;
+			}
+			case 6:{
+					cout << " " << KiTu2;
+					cout << " 6. Edit Book's Record\n";
+					//Edit_Book's_Record()
+				break;
+			}
+			case 7:{
+					cout << " " << KiTu2;
+					cout << " 7. Close Application\n";
+					//Close_Applicatio()
+				break;
+			}
+			case 8:{
+					for(int i = 0; i < 44; i++)
+							cout << KiTu1;
+			}
+			
+		}
+		cout << "\n\t\t\t\t\t";
+	}while(++dem < 9);
+}
+	
+void Selection()
+{	
+	int c;
+	cout << "\n\t\t\t\t\t";
+	cout << "You want to select : ";
+	cin >> c;
+	switch(c)
+		{
+			case 1: AddBooks();
+			case 2:	//DeleteBooks()
+			case 3:	//Search_Books()
+			case 4: // Issue_Books()
+			case 5: //View_Book_List()
+			case 6: //Edit_Book's_Record()
+			case 7:	//Close_Applicatio()
+			;
+		}
+}
