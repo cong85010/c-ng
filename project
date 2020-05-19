@@ -1,25 +1,33 @@
 #include <iostream>
 #include <string>
 #include <stdlib.h>
+#define file_book "book.txt"
  
 const char KiTu1 = 178;
 const char KiTu2 = 175;
 
 using namespace std;
 
-void menu();
-void Selection();
-void AddBooks();
-
 struct Book{
-	string hoTen;
+	string ten_Book;
+	string hoTen_tg;
+	string namSinh_tg;
+	string theLoai;
 };
+
+struct Book book[20];
+
+void menu();
+void Selection(Book bk[]);
+void AddBooks(Book bk[]);
 
 int main ()
 {
+	struct Book book[20];
+
 	do{
 		menu();
-		Selection();
+		Selection(book);
 	}while(0);
 	
 	
@@ -95,7 +103,7 @@ void menu()
 	}while(++dem < 9);
 }
 	
-void Selection()
+void Selection(Book bk[])
 {	
 	int c;
 	cout << "\n\t\t\t\t\t";
@@ -103,7 +111,7 @@ void Selection()
 	cin >> c;
 	switch(c)
 		{
-			case 1: AddBooks();
+			case 1: AddBooks(bk);
 			case 2:	//DeleteBooks()
 			case 3:	//Search_Books()
 			case 4: // Issue_Books()
@@ -112,4 +120,26 @@ void Selection()
 			case 7:	//Close_Applicatio()
 			;
 		}
+}
+//		cout << "\n\t\t\t\t\t";
+
+void CatPhan()
+{
+	cout << "\n\t\t\t\t\t";
+
+	for(int i = 0; i < 44; i++)
+		cout << "-";
+}
+void AddBooks(Book bk[])
+{
+	FILE *f;
+	f = fopen(file_book, "r");
+	int i;
+	fscanf(f, "%d", &i);
+	CatPhan();
+	cout << "\n\t\t\t\t\t";
+	cout << KiTu2 << " Sach thu " << i ;
+	
+	fclose(f);
+	
 }
