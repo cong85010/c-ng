@@ -1,145 +1,353 @@
 #include <iostream>
 #include <string>
+#include <stdio.h>
 #include <stdlib.h>
+#include <fstream>
+#include <iomanip>
+#include <sstream>
 #define file_book "book.txt"
- 
+
 const char KiTu1 = 178;
 const char KiTu2 = 175;
 
 using namespace std;
-
-struct Book{
+int Sach_Thu = 0;
+struct Book {
 	string ten_Book;
 	string hoTen_tg;
 	string namSinh_tg;
 	string theLoai;
 };
-
-struct Book book[20];
-
+   
 void menu();
 void Selection(Book bk[]);
 void AddBooks(Book bk[]);
+void CatPhan();
+void LayThongTin(Book bk[]);
+int Question();
+void clearScreen();
+void DeleteBooks(Book bk[]);
+void reset_Book(Book bk[]);
+void Books_Available(Book bk[]);
+void Search_Books(Book bk[]);
+void Search_Name(Book bk[]);
 
-int main ()
+
+int main()
 {
+	//Khai bao book kieu Book
 	struct Book book[20];
-
-	do{
+	do {
+		Sach_Thu = 0;
+		LayThongTin(book);
 		menu();
 		Selection(book);
-	}while(0);
-	
-	
+
+
+		if (!Question())
+			exit(0);
+		clearScreen();
+		reset_Book(book);
+	} while (1);
 }
 
+void reset_Book(Book bk[])
+{
+	ofstream Ghi_File(file_book);
+
+	for (int i = 0; i < Sach_Thu; i++)
+	{
+		Ghi_File << bk[i].ten_Book << endl;
+		Ghi_File << bk[i].hoTen_tg << endl;
+		Ghi_File << bk[i].namSinh_tg << endl;
+		Ghi_File << bk[i].theLoai << endl;
+	}
+	Ghi_File.close();
+}
+
+int Question()
+{
+	int x;
+	cout << "\n\n\n\n\t\t\t\t\t";
+	cout << "Ban co muon thuc hien tiep khong :";
+x1:	cout << "\n\t\t\t\t\t\t";
+	cout << "1. Co \t 2. Khong";
+	cout << "\n\t\t\t\t\tBan chon : ";
+	cin >> x;
+	cin.ignore();
+	if (x == 1 || x == 2)
+	{
+		if (x == 1)
+			return 1;
+		return 0;
+	}
+	else
+	{
+		cout << "\n\t\t\t\t\t";
+		cout << "Nhap Sai;";
+		goto x1;
+	}
+}
+
+void clearScreen()
+{
+	for (int i = 0; i < 10; i++)
+		cout << "\n\n\n\n\n\n\n";
+}
+void LayThongTin(Book bk[])
+{
+	fstream thongTin;
+	thongTin.open(file_book, ios::in);
+
+	if (thongTin.fail())
+	{
+		cout << "Khong tim thay FILE !!!";
+		exit(0);
+	}
+
+	for (int i = 0; !thongTin.eof(); i++)
+	{
+		getline(thongTin, bk[i].ten_Book);
+		getline(thongTin, bk[i].hoTen_tg);
+		getline(thongTin, bk[i].namSinh_tg);
+		getline(thongTin, bk[i].theLoai);
+		Sach_Thu++;
+	}
+	thongTin.close();	
+}
+
+void time_now()
+{
+	cout << "\n\n\n\n\t\t\t\t\t\t        ";
+	cout << __DATE__ << endl;
+	
+	cout << "\n\t\t\t\t\t\t\t ";
+	cout << __TIME__ << endl;
+}
 void menu()
 {
-	int dem = 0;
-	cout << "\n\n\n\n\t\t\t\t\t";
-	do{
-		switch(dem)
-		{
-		
-			case 0:{
-					for(int i = 0; i < 32; i++)
-						{
-							cout << KiTu1;
-							if(i == 15)
-								cout << " MAIN MENU ";
-						}
-						cout << endl;
-					break;
-			}	
-			case 1:{
-					cout << " " << KiTu2;
-					cout << " 1. Add Books\n";
-					//AddBooks()
-				break;
-			}
-			case 2:{
-					cout << " " << KiTu2;
-					cout << " 2. Delete Books\n";
-					//DeleteBooks()
-				break;
-			}
-			case 3:{
-					cout << " " << KiTu2;
-					cout << " 3. Search Books\n";
-					//Search_Books()
-				break;
-			}
-			case 4:{
-					cout << " " << KiTu2;
-					cout << " 4. Issue Books\n";
-					// Issue_Books()
-				break;
-			}
-			case 5:{
-					cout << " " << KiTu2;
-					cout << " 5. View Book List\n";
-					//View_Book_List()
-				break;
-			}
-			case 6:{
-					cout << " " << KiTu2;
-					cout << " 6. Edit Book's Record\n";
-					//Edit_Book's_Record()
-				break;
-			}
-			case 7:{
-					cout << " " << KiTu2;
-					cout << " 7. Close Application\n";
-					//Close_Applicatio()
-				break;
-			}
-			case 8:{
-					for(int i = 0; i < 44; i++)
-							cout << KiTu1;
-			}
-			
-		}
-		cout << "\n\t\t\t\t\t";
-	}while(++dem < 9);
-}
-	
-void Selection(Book bk[])
-{	
-	int c;
+	time_now();
+	cout << "\n\n\n\t\t\t\t\t";
+
+	for (int i = 0; i < 32; i++)
+	{
+		cout << KiTu1;
+		if (i == 15)
+			cout << " MAIN MENU ";
+	}
+
+
+	cout << "\n\n\t\t\t\t\t" << KiTu2;
+	cout << " 1. Add Books\n";
+	//AddBooks()
+
+	cout << "\n\t\t\t\t\t" << KiTu2;
+	cout << " 2. Delete Books\n";
+	//DeleteBooks()
+
+
+	cout << "\n\t\t\t\t\t" << KiTu2;
+	cout << " 3. Search Books\n";
+	//Search_Books()
+
+
+
+	cout << "\n\t\t\t\t\t" << KiTu2;
+	cout << " 4. Issue Books\n";
+	// Issue_Books()
+
+	cout << "\n\t\t\t\t\t" << KiTu2;
+	cout << " 5. View Book List\n";
+	//View_Book_List()
+
+	cout << "\n\t\t\t\t\t" << KiTu2;
+	cout << " 6. Edit Book's Record\n";
+	//Edit_Book's_Record()
+
+	cout << "\n\t\t\t\t\t" << KiTu2;
+	cout << " 7. Close Application\n";
+	//Close_Applicatio()
+
 	cout << "\n\t\t\t\t\t";
-	cout << "You want to select : ";
-	cin >> c;
-	switch(c)
-		{
-			case 1: AddBooks(bk);
-			case 2:	//DeleteBooks()
-			case 3:	//Search_Books()
-			case 4: // Issue_Books()
-			case 5: //View_Book_List()
-			case 6: //Edit_Book's_Record()
-			case 7:	//Close_Applicatio()
-			;
-		}
+
+	for (int i = 0; i < 44; i++)
+		cout << KiTu1;
 }
-//		cout << "\n\t\t\t\t\t";
+
+void Selection(Book bk[])
+{
+	int chon;
+	cout << "\n\n\t\t\t\t\t";
+	cout << "You want to select : ";
+	cin >> chon;
+	switch (chon)
+	{
+	case 1: AddBooks(bk); break;
+	case 2:	DeleteBooks(bk); break;
+	case 3:	Search_Books(bk); break;
+	case 4: // Issue_Books()
+	case 5: //View_Book_List()
+	case 6: //Edit_Book's_Record()
+	case 7:	//Close_Applicatio()
+		;
+	}
+}
 
 void CatPhan()
 {
 	cout << "\n\t\t\t\t\t";
 
-	for(int i = 0; i < 44; i++)
+	for (int i = 0; i < 44; i++)
 		cout << "-";
 }
+
 void AddBooks(Book bk[])
-{
-	FILE *f;
-	f = fopen(file_book, "r");
-	int i;
-	fscanf(f, "%d", &i);
+{	
 	CatPhan();
+	CatPhan();
+
+	fstream    file_in;
+	file_in.open(file_book, ios::app);
+
 	cout << "\n\t\t\t\t\t";
-	cout << KiTu2 << " Sach thu " << i ;
+	cout << KiTu2 << " Sach thu " << Sach_Thu;
+	cin.ignore();
+
+	cout << "\n\t\t\t\t\t";
+	cout << "Nhap ten cua sach : ";
+	getline(cin, bk[Sach_Thu - 1].ten_Book);
+	file_in << bk[Sach_Thu - 1].ten_Book << endl;
+
+
+	cout << "\n\t\t\t\t\t";
+	cout << "Nhap ho ten tac gia : ";
+	getline(cin, bk[Sach_Thu - 1].hoTen_tg);
+	file_in << bk[Sach_Thu - 1].hoTen_tg << endl;
+
+
+	cout << "\n\t\t\t\t\t";
+	cout << "Nhap nam sinh : ";
+	getline(cin, bk[Sach_Thu - 1].namSinh_tg);
+	file_in << bk[Sach_Thu - 1].namSinh_tg << endl;
+
+
+	cout << "\n\t\t\t\t\t";
+	cout << "Nhap the loai cua sach : ";
+	getline(cin, bk[Sach_Thu - 1].theLoai);
+	file_in << bk[Sach_Thu - 1].theLoai << endl;
+
+	file_in.close();
+}
+
+void Books_Available(Book bk[])
+{
+	cout << "\n\n\n\n\t\t\t\t\t";
+
+	cout << "\tSach Hien Co" << endl;
+
+	for (int i = 0; i < Sach_Thu - 1; i++)
+	{
+		cout << "\n\t\t\t\t\t";
+		cout << i + 1 << "." << bk[i].ten_Book << endl;
+	}
+}
+
+void DeleteBooks(Book bk[])
+{
+	clearScreen();
+	if (Sach_Thu == 0)
+	{
+		cout << "Ban chua co sach nao trong ke" << endl;
+		menu();
+		return;
+	}
+	Books_Available(bk);
+	int xoaSach;
 	
-	fclose(f);
-	
+l1:	cout << "\n\t\t\t\t\t";
+	cout << "Ban muon xoa sach so :";
+	cin >> xoaSach;
+
+	if (xoaSach < 0 || xoaSach > Sach_Thu)
+	{
+		cout << "\n\t\t\t\t\t";
+		cout << "Sai du lieu !!!";
+		goto l1;
+	}
+
+	if (xoaSach < Sach_Thu)
+		bk[xoaSach - 1] = bk[xoaSach];
+	Sach_Thu--;
+}
+
+void Search_Books(Book bk[])
+{
+	/*1. chon sach theo cach nhap ten sach
+		2. la chon sach theo the loai */
+	clearScreen();
+	int chonBook;
+	cout << "\t\t\t\t\t";
+	for (int i = 0; i < 32; i++)
+	{
+		cout << KiTu1;
+		if (i == 15)
+			cout << " Search_Books ";
+	}
+	cout << "\n\n\t\t\t\t\t" << KiTu2;
+	cout << "  1. Tim sach theo ten sach" << endl;
+
+	cout << "\n\n\t\t\t\t\t" << KiTu2;
+	cout << " 2. Tim sach theo the loai" << endl;
+	cout << "\n\n\t\t\t\t\t" << KiTu2;
+	cout << " Ban muon chon : ";
+	cin >> chonBook;
+	cin.ignore();
+	if (chonBook == 1)
+		Search_Name(bk);
+}
+
+void ConVertString(string& s)
+{
+	int i = 0;
+	while (i < s.length())
+	{
+		if (s[i] >= 'A' && s[i] <= 'Z')
+			s[i] += 32;
+		i++;
+	}
+}
+bool TimKiem(string s1, string s2)
+{
+	ConVertString(s1);
+	ConVertString(s2);
+	string temp;
+	stringstream s(s2);
+	while (s >> temp)
+	{
+		int x = s1.find(temp); //Tim chuoi 2 co trong chuoi 1 hay khong
+
+		if (x != -1) //neu chuoi 2 co trong chuoi 1
+			return true;
+		return false;
+	}
+}
+
+void Search_Name(Book bk[])
+{
+	clearScreen();
+	string sName_book;
+
+	cout << "\t\t\t\t\t";
+	cout << "Nhap ten sach :";
+	getline(cin, sName_book);
+
+	for (int i = 0; i < Sach_Thu - 1; i++)
+	{
+		if (TimKiem(bk[i].ten_Book, sName_book))
+		{
+			cout << "\n\t\t\t\t\t";
+			cout << bk[i].ten_Book << endl;
+		}
+	}
+
 }
